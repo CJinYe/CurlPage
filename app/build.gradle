@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+    defaultConfig {
+        applicationId "com.share.main"
+//        applicationId"com.cjy.seeobject"
+        minSdkVersion 18
+        targetSdkVersion 22
+        versionCode 10
+        versionName "1.2.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        def file = variant.outputs[0].outputFile
+        def appReleaseFileName = "启蒙识物" +
+                "-v" + versionName +
+                "-sign" + versionCode +
+                ".apk"
+        variant.outputs[0].outputFile = new File(file.parent, appReleaseFileName)
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    testCompile 'junit:junit:4.12'
+    compile project(':synfile-release')
+    compile files('libs/glide-3.6.1.jar')
+}
